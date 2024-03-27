@@ -10,7 +10,15 @@ Paper links: [Arxiv preprint](https://arxiv.org/abs/2403.03532)
 
 20240227 - Our paper has been accepted by CVPR'24!
 
-## Overview of EYOC Requirements
+## Overview of Group-wise Contrastive Learning (GCL)
+
+<div align="center">
+<img src=assets\arch.png>
+</div>
+
+## Requirements
+
+- Ubuntu 14.04 or higher
 
 - Ubuntu 14.04 or higher
 - CUDA 11.1 or higher
