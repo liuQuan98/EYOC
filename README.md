@@ -22,7 +22,7 @@ Paper links: [Arxiv preprint](https://arxiv.org/abs/2403.03532)
 
 ### KITTI & nuScenes
 
-Please check [GCL]([https://github.com/liuQuan98/GCL](https://github.com/liuQuan98/GCL#dataset-preparation) for detailed preparation instructions.
+Please check [GCL](https://github.com/liuQuan98/GCL#dataset-preparation) for detailed preparation instructions.
 
 ### WOD
 
