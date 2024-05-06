@@ -10,7 +10,7 @@ Paper links: [Arxiv preprint](https://arxiv.org/abs/2403.03532)
 
 20240227 - Our paper has been accepted by CVPR'24!
 
-## Overview of Group-wise Contrastive Learning (GCL)
+## Overview of EYOC
 
 <div align="center">
 <img src=assets\arch.png>
