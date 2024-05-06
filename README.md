@@ -6,6 +6,8 @@ Paper links: [Arxiv preprint](https://arxiv.org/abs/2403.03532)
 
 ## News
 
+20240506 - Pretrained weights on all three datasets are released [here](https://drive.google.com/file/d/1mLqW10FAGiDCx0jDVu2L3v3L6IBIVWbt/view?usp=sharing).
+
 20240327 - Source code is released. We also checked and fixed a bug in WOD preprocessing--Remember to check our arxiv v2 for the updated results!
 
 20240227 - Our paper has been accepted by CVPR'24!
