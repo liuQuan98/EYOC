@@ -1152,7 +1152,7 @@ class CorrespondenceExtensionTrainer(ContrastiveLossTrainer):
     
     def corr_through_registration(self, input_dict, uncollated_pairs):
         T_ransac = []
-        C_batch_0, C_batch_1, fitnesses, success_est = [], [], [], []
+        C_batch_0, C_batch_1, fitnesses = [], [], []
 
         # ToDo: Fix SC2-PCR so that this loop can be batched and parallelized
         for i in range(len(uncollated_pairs)):
@@ -1187,14 +1187,13 @@ class CorrespondenceExtensionTrainer(ContrastiveLossTrainer):
 
             # correspondences = []
             # for i, (p1_length, p2_length) in enumerate(zip(P1_N, P2_N)):
-            #     if not success_est[i] == 0:
-            #         pos_sel_1 = torch.randperm(p1_length)[:min(p1_length, 5000)].to(self.device)
-            #         pos_sel_2 = torch.randperm(p2_length)[:min(p2_length, 5000)].to(self.device)
-            #         idx_sel_1 = idx_1[i][pos_sel_1]
-            #         idx_sel_2 = idx_2[i][pos_sel_2]
-            #         corr_1 = torch.cat([pos_sel_1, idx_sel_2], dim=0) + bias_1[i]
-            #         corr_2 = torch.cat([idx_sel_1, pos_sel_2], dim=0) + bias_2[i]
-            #         correspondences.append(torch.cat([corr_1.unsqueeze(1), corr_2.unsqueeze(1)], dim=1))
+            #     pos_sel_1 = torch.randperm(p1_length)[:min(p1_length, 5000)].to(self.device)
+            #     pos_sel_2 = torch.randperm(p2_length)[:min(p2_length, 5000)].to(self.device)
+            #     idx_sel_1 = idx_1[i][pos_sel_1]
+            #     idx_sel_2 = idx_2[i][pos_sel_2]
+            #     corr_1 = torch.cat([pos_sel_1, idx_sel_2], dim=0) + bias_1[i]
+            #     corr_2 = torch.cat([idx_sel_1, pos_sel_2], dim=0) + bias_2[i]
+            #     correspondences.append(torch.cat([corr_1.unsqueeze(1), corr_2.unsqueeze(1)], dim=1))
         else:
             _, idx_1, _ = knn_points(P1_F, P2_F, P1_N, P2_N, K=1)
             idx_1 = idx_1[:, :, 0]
@@ -1204,26 +1203,25 @@ class CorrespondenceExtensionTrainer(ContrastiveLossTrainer):
             correspondences = []
             uncollated_corr = []
             for i, (p1_length, p2_length) in enumerate(zip(P1_N, P2_N)):
-                if not success_est[i] == 0:
-                    pos_sel_1 = torch.randperm(p1_length)[:min(p1_length, 5000)].to(self.device)
+                pos_sel_1 = torch.randperm(p1_length)[:min(p1_length, 5000)].to(self.device)
 
-                    pose = torch.Tensor(T_ransac[i]).to(self.device)
-                    src_keypts_corr = input_dict["pcd0"][i][pos_sel_1.long()] @ pose[:3,:3].T + pose[:3,3].T
-                    tgt_keypts_corr = input_dict["pcd1"][i][idx_1[i][pos_sel_1].long()]
-                    within_range_mask = (torch.norm(src_keypts_corr - tgt_keypts_corr, dim=1) < 2) # keep all correspondences within 2m error
-                    # the bound here is intentionally set loose due to tolerate possible pose errors
+                pose = torch.Tensor(T_ransac[i]).to(self.device)
+                src_keypts_corr = input_dict["pcd0"][i][pos_sel_1.long()] @ pose[:3,:3].T + pose[:3,3].T
+                tgt_keypts_corr = input_dict["pcd1"][i][idx_1[i][pos_sel_1].long()]
+                within_range_mask = (torch.norm(src_keypts_corr - tgt_keypts_corr, dim=1) < 2) # keep all correspondences within 2m error
+                # the bound here is intentionally set loose due to tolerate possible pose errors
 
-                    # mask the out-of-range corrs
-                    pos_sel_1 = pos_sel_1[within_range_mask]
-                    pos_sel_2 = idx_1[i][pos_sel_1]
-                    uncollated_corr.append(torch.cat([pos_sel_1.unsqueeze(1), pos_sel_2.unsqueeze(1)], dim=1))
-                    
-                    pos_sel_1 += bias_1[i]
-                    pos_sel_2 += bias_2[i]
-                    correspondences.append(torch.cat([pos_sel_1.unsqueeze(1), pos_sel_2.unsqueeze(1)], dim=1))
+                # mask the out-of-range corrs
+                pos_sel_1 = pos_sel_1[within_range_mask]
+                pos_sel_2 = idx_1[i][pos_sel_1]
+                uncollated_corr.append(torch.cat([pos_sel_1.unsqueeze(1), pos_sel_2.unsqueeze(1)], dim=1))
+                
+                pos_sel_1 += bias_1[i]
+                pos_sel_2 += bias_2[i]
+                correspondences.append(torch.cat([pos_sel_1.unsqueeze(1), pos_sel_2.unsqueeze(1)], dim=1))
 
         correspondences = torch.cat(correspondences, dim=0)
-        return T_ransac, correspondences, success_est, fitnesses, uncollated_corr
+        return T_ransac, correspondences, [], fitnesses, uncollated_corr
     
     def _get_dist_similarity_plot(self, C0, C1, 
                                   F0: torch.Tensor, F1: torch.Tensor, corr): 
