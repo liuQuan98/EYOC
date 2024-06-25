@@ -36,7 +36,7 @@ Please check [GCL](https://github.com/liuQuan98/GCL#dataset-preparation) for det
 
 ### WOD
 
-Please first download the LiDAR sequences and pose files of [WOD](https://www.waymo.com/open).
+Please first download the LiDAR sequences and pose files of [WOD Perception](https://www.waymo.com/open).
 
 Then, convert the WOD dataset to kitti format using the following command:
 
