@@ -21,8 +21,6 @@ Paper links: [Arxiv preprint](https://arxiv.org/abs/2403.03532),  [CVPR'24](http
 ## Requirements
 
 - Ubuntu 14.04 or higher
-
-- Ubuntu 14.04 or higher
 - CUDA 11.1 or higher
 - Python v3.7 or higher
 - Pytorch v1.6 or higher
