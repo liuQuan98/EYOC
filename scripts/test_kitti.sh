@@ -45,7 +45,7 @@ nvidia-smi | tee -a $LOG
 range_list=(5 10 20 30 40 50)
 devices_list=(0 0 1 1 1)
 RANSAC=true
-LOG_DIR="./ablation/supervised/waymo/test_firstReturn"
+LOG_DIR="./ablation/kitti/default_test"
 
 if [ "$RANSAC" = true ] ; then
 	REGISTRATOR="ransac"
