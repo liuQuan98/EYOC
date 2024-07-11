@@ -3,12 +3,11 @@ export PATH_POSTFIX=$1
 export MISC_ARGS=$2
 
 # if you are using the automated procedure, this parameter is overrided
-export CUDA_VISIBLE_DEVICES=3
+export CUDA_VISIBLE_DEVICES=0
 
 # export DATASET=${DATASET:-NuscenesNFramePairDataset}
 export DATASET=${DATASET:-WaymoRandDistPairDataset}
 export KITTI_PATH="/mnt/disk/waymo_open_dataset_V2/waymo_kitti_firstReturn"
-# export KITTI_PATH="/mnt/disk/waymo_open_dataset_V2/waymo_kitti"
 export TIME=$(date +"%Y-%m-%d_%H-%M-%S")
 export VERSION=$(git rev-parse HEAD)
 export OUT_DIR=${OUT_DIR:-./outputs/Experiments/WaymoContinuousFramePairDataset-v0.3/ContinuousCorrExtensionTrainer/ResUNetFatBN/SGD-lr5e-3-e200-b8i1-modelnout32/2024-03-17_22-31-05}
@@ -48,7 +47,7 @@ nvidia-smi | tee -a $LOG
 range_list=(5 10 20 30 40 50)
 devices_list=(0 0 1 1 1)
 RANSAC=true
-LOG_DIR="./ablation/eyoc_waymo/FirstReturn/ema_train/finetune_from_GCL/test_GCL_finetune_30_30_epoch25"
+LOG_DIR="./ablation/waymo/default_test"
 
 if [ "$RANSAC" = true ] ; then
 	REGISTRATOR="ransac"
@@ -59,9 +58,9 @@ fi
 for ((i=0; i<5; i++)); do
     min_dist=${range_list[i]}
     max_dist=${range_list[i+1]}
-	device=${devices_list[i]}
+    device=${devices_list[i]}
 	
-	export CUDA_VISIBLE_DEVICES=$device
+    export CUDA_VISIBLE_DEVICES=$device
 
     nohup python -m scripts.test_kitti \
 		--kitti_root ${KITTI_PATH} \
