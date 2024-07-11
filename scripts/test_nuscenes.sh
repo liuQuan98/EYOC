@@ -46,7 +46,7 @@ nvidia-smi | tee -a $LOG
 range_list=(5 10 20 30 40 50)
 devices_list=(0 0 1 1 1)
 RANSAC=true
-LOG_DIR="./ablation/supervised/waymo/test_firstReturn"
+LOG_DIR="./ablation/nuscenes/default_test"
 
 if [ "$RANSAC" = true ] ; then
 	REGISTRATOR="ransac"
@@ -57,9 +57,9 @@ fi
 for ((i=0; i<5; i++)); do
     min_dist=${range_list[i]}
     max_dist=${range_list[i+1]}
-	device=${devices_list[i]}
+    device=${devices_list[i]}
 	
-	export CUDA_VISIBLE_DEVICES=$device
+    export CUDA_VISIBLE_DEVICES=$device
 
     nohup python -m scripts.test_kitti \
 		--kitti_root ${KITTI_PATH} \
