@@ -66,7 +66,7 @@ pip install -r requirements.txt
 
 1. **Supervised training:**
 
-We denote range of pairwise translation length $d$ with the parameter `--pair_min_dist` and `--pair_max_dist`, which can be found in `./scripts/train_fcgf_{$dataset}.sh`. For example, setting
+We denote range of pairwise translation length $d$ with the parameter `--pair_min_dist` and `--pair_max_dist`, which can be found in `./scripts/train_{$dataset}_FCGF.sh`. For example, setting
 
 ```
 --pair_min_dist 5 \
@@ -77,7 +77,7 @@ will set $d\in [5m,20m]$. In other words, for every pair of point clouds, the gr
 
 2) **Unsupervised training of EYOC:**
 
-For all EYOC scripts (`./scripts/train_fcgf_{$dataset}_continuous.sh`), setting
+For all EYOC scripts (`./scripts/train_{$dataset}_EYOC.sh`), setting
 
 ```
 --pair_min_dist 1 \
